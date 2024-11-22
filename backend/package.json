@@ -18,6 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "@fireblocks/ts-sdk": "^3.1.0",
+    "fireblocks-sdk": "^5.33.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

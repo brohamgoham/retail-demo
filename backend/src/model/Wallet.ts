@@ -3,6 +3,7 @@ import { User } from './User';
 import { Asset } from './Asset';
 import { WalletAssetBalance } from './WalletAssetBalance';
 import { Transaction } from './Transaction';
+import { Device } from './Device';
 
 @Entity()
 export class Wallet extends BaseEntity {
@@ -26,4 +27,8 @@ export class Wallet extends BaseEntity {
 
   @Column({ nullable: true })
   description: string;
+
+  @OneToMany(() => Device, (device) => device.wallet)
+  devices: Device[];
+
 }
