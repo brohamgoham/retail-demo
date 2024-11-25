@@ -27,9 +27,9 @@ export class User extends BaseEntity {
   @JoinColumn() 
   wallet: Wallet;
 
-  @OneToMany(() => Device, (device) => device.userId)
+  //@OneToMany(() => Device, (device) => device.userId)
   devices: Device[];
 
-  @OneToMany(() => Passphrase, (passphrase) => passphrase.userId)
+ // @OneToMany(() => Passphrase, (passphrase) => passphrase.userId)
   passphrases: Passphrase[];
 }

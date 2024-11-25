@@ -7,6 +7,7 @@ const logger = createLogger('<Embedded Wallets Controller>');
 export class NCWController {
 
     static async getDeviceStatus(req: Request, res: Response) {
+        logger.info('NCW ----- getDeviceStatus');
         // @TODO: Implement this
         //  const device = await fireblocksNCWService..
     }

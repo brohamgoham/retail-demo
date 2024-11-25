@@ -60,6 +60,8 @@ app.use(authMiddleware);
 app.use('/wallet', walletRouter);
 app.use('/supported-assets', supportedAssetRouter);
 app.use('/transactions', transactionRouter);
+// TODO: Protect routes for the new Embedded Wallets endpoints
+//app.use('/ew', ewRouter);
 
 // Create the server without passing app to createServer
 const server = http.createServer();

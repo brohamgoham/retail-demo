@@ -27,7 +27,7 @@ import {
     @Column({ nullable: false })
     location: PassphraseLocation;
   
-    @ManyToOne(() => User, (user) => user.passphrases, { cascade: true })
+   // @ManyToOne(() => User, (user) => user.passphrases, { cascade: true })
     @JoinColumn({ name: "userId", referencedColumnName: "id" })
     user: User;
   

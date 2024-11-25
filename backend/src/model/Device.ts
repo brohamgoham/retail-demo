@@ -27,11 +27,11 @@ import {
     @OneToMany(() => Message, (msg) => msg.device)
     msgs: Message[];
   
-    @ManyToOne(() => Wallet, (wallet) => wallet.devices, { cascade: true })
+   // @ManyToOne(() => Wallet, (wallet) => wallet.devices, { cascade: true })
     @JoinColumn({ name: "walletId", referencedColumnName: "id" })
     wallet: Wallet;
   
-    @ManyToOne(() => User, (user) => user.devices, { cascade: true })
+   // @ManyToOne(() => User, (user) => user.devices, { cascade: true })
     @JoinColumn({ name: "userId", referencedColumnName: "id" })
     user: User;
   

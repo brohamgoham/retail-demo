@@ -28,7 +28,7 @@ export class Wallet extends BaseEntity {
   @Column({ nullable: true })
   description: string;
 
-  @OneToMany(() => Device, (device) => device.wallet)
+  //@OneToMany(() => Device, (device) => device.wallet)
   devices: Device[];
 
 }
