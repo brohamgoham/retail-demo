@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity, OneToOne, JoinColumn } from 'typeorm';
 import { Wallet } from './Wallet';
 import { Device } from './Device';
-import { Passphrase } from './EWPassphrase';
+import { EWPassphrase } from './EWPassphrase';
 
 @Entity()
 export class User extends BaseEntity {
@@ -27,9 +27,9 @@ export class User extends BaseEntity {
   @JoinColumn() 
   wallet: Wallet;
 
-  //@OneToMany(() => Device, (device) => device.userId)
+  @OneToMany(() => Device, (device) => device.userId)
   devices: Device[];
 
- // @OneToMany(() => Passphrase, (passphrase) => passphrase.userId)
-  passphrases: Passphrase[];
+  @OneToMany(() => EWPassphrase, (passphrase) => passphrase.userId)
+  passphrases: EWPassphrase[];
 }

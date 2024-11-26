@@ -9,7 +9,7 @@ import {
     PrimaryColumn,
     UpdateDateColumn,
   } from 'typeorm';
-  import { Message } from './EWMessages';
+  import { EWMessages } from './EWMessages';
   import { User } from './User';
   import { Wallet } from './Wallet';
   
@@ -24,14 +24,14 @@ import {
     @Column({ type: "uuid", nullable: false, length: 64 })
     walletId: string;
   
-    @OneToMany(() => Message, (msg) => msg.device)
-    msgs: Message[];
+    @OneToMany(() => EWMessages, (msg) => msg.device)
+    msgs: EWMessages[];
   
-   // @ManyToOne(() => Wallet, (wallet) => wallet.devices, { cascade: true })
+    @ManyToOne(() => Wallet, (wallet) => wallet.devices, { cascade: true })
     @JoinColumn({ name: "walletId", referencedColumnName: "id" })
     wallet: Wallet;
   
-   // @ManyToOne(() => User, (user) => user.devices, { cascade: true })
+    @ManyToOne(() => User, (user) => user.devices, { cascade: true })
     @JoinColumn({ name: "userId", referencedColumnName: "id" })
     user: User;
   

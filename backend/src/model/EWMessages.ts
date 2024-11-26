@@ -12,7 +12,7 @@ import {
   import { Device } from './Device';
   
   @Entity()
-  export class Message extends BaseEntity {
+  export class EWMessages extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
   
