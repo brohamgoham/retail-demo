@@ -7,7 +7,9 @@ router.get(
     '/device',
     NCWController.getDeviceStatus
   )
-  
-  
-  
+
+  router.get(
+    '/device/setup',
+    NCWController.getDeviceSetupStatus
+  )
   export default router;
