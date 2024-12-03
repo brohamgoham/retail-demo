@@ -3,7 +3,8 @@ import { readFileSync } from 'fs';
 import { FireblocksRateLimiter } from '@util/rateLimiter';
 import { endpointLimits } from '@util/endpointLimits';
 import axios from 'axios';
-import { randomUUID } from 'crypto';
+import fs from 'fs';
+import path from "path";
 import { BasePath } from "@fireblocks/ts-sdk";
 require('dotenv').config();
 export interface Clients {
@@ -11,9 +12,7 @@ export interface Clients {
     admin: FireblocksSDK;
   }
 
-  
-  const pathToSecret = process.env.FIREBLOCKS_PATH_TO_SECRET_NCW;
-  const secretKey = readFileSync(pathToSecret!, 'utf8');
+  const secretKey = fs.readFileSync(path.resolve("./keys/retail-ncw.key"), "utf8");
   const signerApiKey = process.env.FIREBLOCKS_API_KEY_NCW_SIGNER;
   const adminApiKey = process.env.FIREBLOCKS_API_KEY_NCW_ADMIN;
   
@@ -36,9 +35,9 @@ export interface Clients {
           await this.rateLimiter.throttle(endpoint, method);
   
           // Add Idempotency-Key header for POST requests, except for /v1/transactions
-          if (method === 'POST' && !endpoint.endsWith('/v1/ncw')) {
-            config.headers['X-End-User-Wallet-Id'] = randomUUID();
-          }
+       //   if (method === 'POST' && !endpoint.endsWith('/v1/ncw')) {
+       //     config.headers['X-End-User-Wallet-Id'] = randomUUID();
+       //   }
   
           return config;
         });
@@ -47,12 +46,12 @@ export interface Clients {
           signer: new FireblocksSDK(
             signerApiKey,
             secretKey,
-            basePath || BasePath.US
+            "https://api.fireblocks.io"
           ),
           admin: new FireblocksSDK(
             adminApiKey,
             secretKey,
-            basePath || BasePath.US
+            "https://api.fireblocks.io"
           )
         };
       } catch (error) {

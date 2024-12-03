@@ -18,6 +18,7 @@ import { sweepingService, consolidationService } from '@service';
 import { setupScript } from './setupScript';
 import { createLogger } from '@util/logger.utils';
 import { vaultConfig } from '@util/vaultConfig';
+import { NCWController } from '@controller/ncw.controller';
 
 
 
@@ -61,7 +62,7 @@ app.use(authMiddleware);
 app.use('/wallet', walletRouter);
 app.use('/supported-assets', supportedAssetRouter);
 app.use('/transactions', transactionRouter);
-app.use('/ncw', ncwRouter);
+app.use('/ew', ncwRouter);
 // Create the server without passing app to createServer
 const server = http.createServer();
 

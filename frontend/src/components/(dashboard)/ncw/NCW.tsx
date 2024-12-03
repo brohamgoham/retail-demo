@@ -7,6 +7,7 @@ import { Card } from '@/foundation/card';
 import { Separator } from '@/foundation/separator';
 import { Label } from '@/foundation/label';
 import { motion } from 'framer-motion';
+import apiService from '@/services/api.service';
 
 const Ncw: React.FC = () => {
   const [activeTab, setActiveTab] = useState('devices');
@@ -14,9 +15,29 @@ const Ncw: React.FC = () => {
   const [walletId, setWalletId] = useState('');
   const [backupInfo, setBackupInfo] = useState('');
   const [keySetupStatus, setKeySetupStatus] = useState('');
+  const [deviceStatus, setDeviceStatus] = useState(null);
+  const [setupStatus, setSetupStatus] = useState(null)
 
-  const handleGetDeviceStatus = () => {
-    console.log(`Getting status for Device ID: ${deviceId}`);
+  const handleGetDeviceStatus = async () => {
+    console.log(`Getting status for Wallet ID: ${walletId}`);
+    try {
+      const status = await apiService.getDeviceStatus(walletId);
+      setDeviceStatus(status);
+      console.log('Device Status:', status);
+    } catch (error) {
+      console.error('Error fetching device status:', error);
+    }
+  };
+  
+  const handleDeviceKeySetupStatus = async () => {
+    console.log(`Getting key setup status for Wallet ID: ${walletId}`);
+    try {
+      const status = await apiService.getDeviceSetupStatus(walletId, deviceId);
+      setSetupStatus(status);
+      console.log('Device Setup Status:', status);
+    } catch (error) {
+      console.error('Error fetching device setup status:', error);
+    }
   };
 
   const handleGetWalletById = () => {
@@ -64,17 +85,23 @@ const Ncw: React.FC = () => {
       {activeTab === 'devices' && (
         <Card>
           <h2 className="text-2xl font-bold mb-4">Device Management</h2>
-          <Label htmlFor="device-id">Device ID</Label>
+          <Label htmlFor="wallet-id">Wallet ID</Label>
           <Input
-            id="device-id"
-            placeholder="Input Device ID"
-            value={deviceId}
-            onChange={(e) => setDeviceId(e.target.value)}
-            className="mb-4" // Added margin-bottom for spacing
+            id="wallet-id"
+            placeholder="Input Wallet ID to get device status"
+            value={walletId}
+            onChange={(e) => setWalletId(e.target.value)}
+            className="mb-4"
           />
           <Button onClick={handleGetDeviceStatus} className="mt-2">
             Get Device Status
           </Button>
+          {deviceStatus && (
+            <div className="mt-4 p-4 border border-black-300 rounded bg-black-100">
+              <h3 className="text-lg font-bold">Device Status:</h3>
+              <pre className="whitespace-pre-wrap">{JSON.stringify(deviceStatus, null, 2)}</pre>
+            </div>
+          )}
         </Card>
       )}
 
@@ -87,18 +114,37 @@ const Ncw: React.FC = () => {
             placeholder="Input Wallet ID"
             value={walletId}
             onChange={(e) => setWalletId(e.target.value)}
-            className="mb-4" // Added margin-bottom for spacing
+            className="mb-4"
           />
           <Button onClick={handleGetWalletById} className="mt-2">
             Get Wallet by Wallet ID
           </Button>
+
           <Separator className="my-4" />
           <Button onClick={handleGetBackupInfo} className="mt-2">
             Get Wallet Latest Backup Info
           </Button>
-          <Button onClick={handleGetKeySetupStatus} className="mt-2">
+          <Separator className="my-4" />
+
+          <Label htmlFor="wallet-id">Wallet ID</Label>
+          <Input
+            id="wallet-id"
+            placeholder="Input Wallet ID"
+            value={walletId}
+            onChange={(e) => setWalletId(e.target.value)}
+            className="mb-4"
+          />
+            <Input
+            id="device-id"
+            placeholder="Input Device ID"
+            value={deviceId}
+            onChange={(e) => setDeviceId(e.target.value)}
+            className="mb-4"
+          />
+          <Button className="mt-2" onClick={handleDeviceKeySetupStatus}>
             Get Wallet Key Setup Status
           </Button>
+          {setupStatus && <div>Device Setup Status: {JSON.stringify(setupStatus)}</div>}
         </Card>
       )}
 
@@ -111,7 +157,7 @@ const Ncw: React.FC = () => {
             placeholder="Input Wallet ID for Backup Info"
             value={backupInfo}
             onChange={(e) => setBackupInfo(e.target.value)}
-            className="mb-4" // Added margin-bottom for spacing
+            className="mb-4"
           />
           <Button onClick={handleGetBackupInfo} className="mt-2">
             Get Backup Info
@@ -123,7 +169,7 @@ const Ncw: React.FC = () => {
             placeholder="Input Wallet ID for Key Setup Status"
             value={keySetupStatus}
             onChange={(e) => setKeySetupStatus(e.target.value)}
-            className="mb-4" // Added margin-bottom for spacing
+            className="mb-4"
           />
           <Button onClick={handleGetKeySetupStatus} className="mt-2">
             Get Key Setup Status

@@ -4,12 +4,12 @@ import { Router } from 'express';
 const router = Router();
 
 router.get(
-    '/device',
+    '/device/:walletId',
     NCWController.getDeviceStatus
   )
 
   router.get(
-    '/device/setup',
+    '/device/setup/:deviceId/:walletId',
     NCWController.getDeviceSetupStatus
   )
   export default router;

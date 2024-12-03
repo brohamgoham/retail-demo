@@ -8,3 +8,7 @@ export const AUTH = `${BACKEND_BASE_URL}/auth`
 export const SUPPORTED_ASSETS = `${BACKEND_BASE_URL}/supported-assets`
 export const TRANSCATIONS = `${BACKEND_BASE_URL}/transactions`
 export const SUBMIT_TRANSACTION = `${TRANSCATIONS}/submit`
+
+export const EW =`${BACKEND_BASE_URL}/ew`
+export const NCW_GET_DEVICE_SETUP_STATUS = `${EW}/device/setup`
+export const getDeviceEw = (walletId: string) => `${EW}/device/${walletId}`

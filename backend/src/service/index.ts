@@ -8,3 +8,4 @@ export * from './walletAsset.service';
 export * from './webhook.service';
 export * from './websocket.service';
 export * from './consolidation.service';
+export * from './ncw.service';

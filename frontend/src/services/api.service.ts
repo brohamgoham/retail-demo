@@ -93,7 +93,37 @@ class ApiService {
     const response = await axiosInstance.post(urls.TRANSCATIONS, { transactionRequest: txData });
     return response.data;
   }
+
+  /**
+   * Fetches the device status by wallet ID
+   * @param {string} walletId - The ID of the wallet
+   * @returns {Promise<any>} The device status data
+   */
+  getDeviceSetupStatus = async (walletId: string, deviceId: string) => {
+    try {
+      const url = `${urls.NCW_GET_DEVICE_SETUP_STATUS}/${deviceId}/${walletId}`;
+      const res = await axiosInstance.get(url);
+      console.log("Running get Device SETUP Status");
+      return res.data;
+    } catch (error) {
+      console.error("Failed to get device setup status");
+      throw error;
+    }
+  }
+// "http://localhost:3000/ncw/device/setup/e53ec968-d5c4-4445-a5f8-9608751f56d1/e53ec968-d5c4-4445-a5f8-9608751f56d1"
+
+  async getDeviceStatus(walletId: string) {
+    try {
+      const res = await axiosInstance.get(urls.getDeviceEw(walletId));
+      console.log("Running get Device Status");
+      return res.data;
+    } catch (error) {
+      console.error("ERROR calling NCW backend, check API key is NCW admin/signer");
+      throw error;
+    }
+  }
 }
+
 
 const apiService = new ApiService();
 export default apiService;
