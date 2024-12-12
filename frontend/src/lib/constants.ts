@@ -11,4 +11,7 @@ export const SUBMIT_TRANSACTION = `${TRANSCATIONS}/submit`
 
 export const EW =`${BACKEND_BASE_URL}/ew`
 export const NCW_GET_DEVICE_SETUP_STATUS = `${EW}/device/setup`
-export const getDeviceEw = (walletId: string) => `${EW}/device/${walletId}`
+export const getDeviceEw = (walletId: string) => `${EW}/device/${walletId}` // getWalletSetupStatus
+export const getWalletDevices = (walletId: string) =>  `${EW}/wallet/${walletId}` // getWalletDevices
+export const NCW_ENABLE_WALLET = (walletId: string) => `${EW}/wallet/enable/${walletId}`
+export const NCW_INVOKE_WALLET_RPC = (walletId: string, deviceId: string) => `${EW}/invoke/${walletId}/${deviceId}`

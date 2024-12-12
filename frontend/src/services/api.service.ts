@@ -110,7 +110,6 @@ class ApiService {
       throw error;
     }
   }
-// "http://localhost:3000/ncw/device/setup/e53ec968-d5c4-4445-a5f8-9608751f56d1/e53ec968-d5c4-4445-a5f8-9608751f56d1"
 
   async getDeviceStatus(walletId: string) {
     try {
@@ -119,6 +118,36 @@ class ApiService {
       return res.data;
     } catch (error) {
       console.error("ERROR calling NCW backend, check API key is NCW admin/signer");
+      throw error;
+    }
+  }
+
+  async getWalletDevices(walletId: string) {
+    try {
+      const res = await axiosInstance.get(urls.getWalletDevices(walletId));
+      return res.data;
+    } catch (error) {
+      console.error("Error fetching wallet devices:", error);
+      throw error;
+    }
+  }
+
+  async enableWallet(walletId: string, enabled: boolean) {
+    try {
+      const res = await axiosInstance.put(urls.NCW_ENABLE_WALLET(walletId), { enabled });
+      return res.data;
+    } catch (error) {
+      console.error("Error enabling wallet device:", error);
+      throw error;
+    }
+  }
+
+  async invokeWalletRpc(walletId: string, deviceId: string, payload: any) {
+    try {
+      const res = await axiosInstance.post(urls.NCW_INVOKE_WALLET_RPC(walletId, deviceId), { payload });
+      return res.data;
+    } catch (error) {
+      console.error("Error invoking wallet RPC:", error);
       throw error;
     }
   }

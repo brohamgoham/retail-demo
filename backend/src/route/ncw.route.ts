@@ -12,4 +12,19 @@ router.get(
     '/device/setup/:deviceId/:walletId',
     NCWController.getDeviceSetupStatus
   )
+  router.get(
+    '/wallet/:walletId',
+    NCWController.getWalletDevices
+  )
+
+  router.put(
+    '/wallet/enable/:walletId',
+    NCWController.enableWallet
+  )
+
+  router.post(
+    '/invoke/:walletId/:deviceId',
+    NCWController.invokeWalletRpc
+  )
+
   export default router;

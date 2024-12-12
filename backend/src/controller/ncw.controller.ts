@@ -21,4 +21,57 @@ export class NCWController {
       return res.status(500).json({ error: error.message });
     }
   }
+
+  static async getWalletDevices(req: Request, res: Response) {
+    const { walletId } = req.params;
+    try {
+      const walletDevices = await fireblocksNCWService.getWalletDevices(walletId);
+      console.log("getWalletDevices=>", walletDevices);
+      return res.status(200).json(res);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
+  static async enableWallet(req: Request, res: Response) {
+    const { walletId } = req.params;
+    const { enabled } = req.body;
+    try {
+      await fireblocksNCWService.enableWalletDevice(walletId, enabled);
+      console.log("enableWalletDevice=>?", enabled);
+      return res.status(201).json({ message: `Wallet device enabled status set to ${enabled}`, enabled });
+    } catch (error) {
+      return res.status(404).json({ error: error.message });
+    }
+  }
+
+  /*
+    
+    async rpc(req: RequestEx, res: Response, next: NextFunction) {
+    const { params, device } = req;
+    const { deviceId } = params;
+    const { message } = req.body;
+
+    try {
+      const { walletId } = device!;
+      const response = await this.service.rpc(walletId, deviceId, message);
+      res.json(response);
+    } catch (err) {
+      return next(err);
+    }
+  }
+  
+  */
+  static async invokeWalletRpc(req: Request, res: Response) {
+    const { walletId, deviceId } = req.params;
+    const { payload } = req.body;
+    try {
+      const invoke = await fireblocksNCWService.invokeWalletRpc(walletId, deviceId, payload);
+      console.log("invokeWalletRpc=>", invoke);
+      return res.status(200).json(res);
+    } catch (error) {
+      return res.status(404).json({ error: error.message });
+    }
+  }
+
 }
