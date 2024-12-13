@@ -5,9 +5,9 @@ import path from 'path';
 
 const logger = createLogger('<Fireblocks Embedded Wallets Service>');
 
-const secretKey = fs.readFileSync(path.resolve("./keys/retail-ncw.key"), "utf8");
-const adminApiKey = process.env.FIREBLOCKS_API_KEY_NCW_ADMIN;
-const signerApiKey = process.env.FIREBLOCKS_API_KEY_NCW_SIGNER;
+const secretKey = fs.readFileSync(path.resolve("./keys/namakwala.key"), "utf8");
+const adminApiKey = process.env.NCW_ADMIN;
+const signerApiKey = process.env.NCW_SIGNER;
 const fireblocksSDK = new FireblocksSDK(secretKey, adminApiKey, "https://api.fireblocks.io");
 const fireblocksSDKSigner = new FireblocksSDK(secretKey, signerApiKey, "https://api.fireblocks.io");
 

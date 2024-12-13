@@ -27,7 +27,11 @@ export class NCWController {
     try {
       const walletDevices = await fireblocksNCWService.getWalletDevices(walletId);
       console.log("getWalletDevices=>", walletDevices);
-      return res.status(200).json(res);
+      const devices = walletDevices.map((device) => ({
+        deviceId: device.deviceId,
+        enabled: device.enabled
+      }));
+      return res.status(200).json(devices);
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }

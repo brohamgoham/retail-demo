@@ -54,7 +54,12 @@ const Ncw: React.FC = () => {
     console.log(`Getting wallet for Wallet ID: ${walletId}`);
     setIsWalletLoading(true);
     setWalletError(null);
-    
+      // returns an array of objects like:
+  //  [
+  // { deviceId: '4fc29ab3-d834-449b-b910-0afa6d705121', enabled: true },
+  // { deviceId: '58a1e24d-4d45-4801-b303-6c8e38bd23c4', enabled: true }
+  // ]
+  
     try {
       const wallet = await apiService.getWalletDevices(walletId);
       setWalletDevices(wallet);
@@ -171,6 +176,14 @@ const Ncw: React.FC = () => {
               {walletError && 
                 <div className="text-red-500 mt-2">{walletError}</div>
               }
+              {walletDevices && walletDevices.length > 0 && (
+                <div className="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                  <h3 className="text-lg font-bold mb-2">Wallet Devices:</h3>
+                  <pre className="whitespace-pre-wrap overflow-auto">
+                    {JSON.stringify(walletDevices, null, 2)}
+                  </pre>
+                </div>
+              )}
             </div>
 
             <Separator />

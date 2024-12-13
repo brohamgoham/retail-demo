@@ -125,6 +125,7 @@ class ApiService {
   async getWalletDevices(walletId: string) {
     try {
       const res = await axiosInstance.get(urls.getWalletDevices(walletId));
+      console.log("getWalletDevices FE=>", res.data);
       return res.data;
     } catch (error) {
       console.error("Error fetching wallet devices:", error);
