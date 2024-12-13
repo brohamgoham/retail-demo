@@ -93,7 +93,67 @@ class ApiService {
     const response = await axiosInstance.post(urls.TRANSCATIONS, { transactionRequest: txData });
     return response.data;
   }
+
+  /**
+   * Fetches the device status by wallet ID
+   * @param {string} walletId - The ID of the wallet
+   * @returns {Promise<any>} The device status data
+   */
+  getDeviceSetupStatus = async (walletId: string, deviceId: string) => {
+    try {
+      const url = `${urls.NCW_GET_DEVICE_SETUP_STATUS}/${deviceId}/${walletId}`;
+      const res = await axiosInstance.get(url);
+      console.log("Running get Device SETUP Status");
+      return res.data;
+    } catch (error) {
+      console.error("Failed to get device setup status");
+      throw error;
+    }
+  }
+
+  async getDeviceStatus(walletId: string) {
+    try {
+      const res = await axiosInstance.get(urls.getDeviceEw(walletId));
+      console.log("Running get Device Status");
+      return res.data;
+    } catch (error) {
+      console.error("ERROR calling NCW backend, check API key is NCW admin/signer");
+      throw error;
+    }
+  }
+
+  async getWalletDevices(walletId: string) {
+    try {
+      const res = await axiosInstance.get(urls.getWalletDevices(walletId));
+      console.log("getWalletDevices FE=>", res.data);
+      return res.data;
+    } catch (error) {
+      console.error("Error fetching wallet devices:", error);
+      throw error;
+    }
+  }
+
+  async enableWallet(walletId: string, enabled: boolean) {
+    try {
+      const res = await axiosInstance.put(urls.NCW_ENABLE_WALLET(walletId), { enabled });
+      return res.data;
+    } catch (error) {
+      console.error("Error enabling wallet device:", error);
+      throw error;
+    }
+  }
+
+  async invokeWalletRpc(walletId: string, deviceId: string, payload: any) {
+    try {
+      const res = await axiosInstance.post(urls.NCW_INVOKE_WALLET_RPC(walletId, deviceId), { payload });
+      return res.data;
+    } catch (error) {
+      console.error("Error invoking wallet RPC:", error);
+      throw error;
+    }
+  }
 }
+
 
 const apiService = new ApiService();
 export default apiService;

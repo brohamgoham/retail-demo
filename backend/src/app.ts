@@ -3,6 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRouter from '@route/auth.route';
 import webhookRouter from '@route/webhook.route';
+import ncwRouter from '@route/ncw.route';
 import transactionRouter from '@route/transaction.route';
 import supportedAssetRouter from '@route/supportedAssets.route';
 import walletRouter from '@route/wallet.route';
@@ -17,6 +18,7 @@ import { sweepingService, consolidationService } from '@service';
 import { setupScript } from './setupScript';
 import { createLogger } from '@util/logger.utils';
 import { vaultConfig } from '@util/vaultConfig';
+import { NCWController } from '@controller/ncw.controller';
 
 
 
@@ -60,7 +62,7 @@ app.use(authMiddleware);
 app.use('/wallet', walletRouter);
 app.use('/supported-assets', supportedAssetRouter);
 app.use('/transactions', transactionRouter);
-
+app.use('/ew', ncwRouter);
 // Create the server without passing app to createServer
 const server = http.createServer();
 

@@ -1,6 +1,6 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
-import { Wallet, WalletAssetBalance, Asset, VaultAccount, SupportedAsset, User, Transaction } from "@model"
+import { Wallet, WalletAssetBalance, Asset, VaultAccount, SupportedAsset, User, Transaction, Device, EWPassphrase, EWMessages } from "@model"
 import { createLogger } from "@util/logger.utils"
 
 
@@ -15,7 +15,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME || "retail_demo",
   synchronize: true,
   logging: false,
-  entities: [Wallet, WalletAssetBalance, Asset, VaultAccount, SupportedAsset, User, Transaction],
+  entities: [Wallet, WalletAssetBalance, Asset, VaultAccount, SupportedAsset, User, Transaction, Device, EWPassphrase, EWMessages],
   migrations: [],
   subscribers: [],
 })

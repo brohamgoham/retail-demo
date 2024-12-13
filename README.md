@@ -126,7 +126,7 @@ Here's a detailed explanation of each variable:
 
 - `FIREBLOCKS_API_KEY`: Your Fireblocks API key
 - `FIREBLOCKS_PATH_TO_SECRET`: Path to your Fireblocks secret key file
-
+# TODO ADD NCW_KEYs
 #### Application Settings
 
 - `PORT`: Port on which the server will run (default: 3000)

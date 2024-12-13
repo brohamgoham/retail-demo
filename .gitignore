@@ -2,6 +2,8 @@ frontend/.pnp
 frontend/.pnp.js
 frontend/.yarn/install-state.gz
 frontend/coverage
+frontend/package-lock.json
+
 frontend/.next/
 frontend/out/
 frontend/build
@@ -21,6 +23,7 @@ backend/tmp/
 backend/temp/
 backend/package-lock.json
 backend/keys/
+backend/src/test/utils/ncw.js
 
 
 */.env
