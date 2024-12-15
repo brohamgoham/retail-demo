@@ -152,6 +152,17 @@ class ApiService {
       throw error;
     }
   }
+
+  async getLatest(walletId: string) {
+    try {
+      const res = await axiosInstance.get(urls.NCW_LATEST(walletId));
+      console.log('works?', res);
+      return res.data;
+    } catch (error) {
+      console.error("Error no backup found", error);
+      throw error;
+    }
+  }
 }
 
 

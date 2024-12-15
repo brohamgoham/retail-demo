@@ -27,6 +27,9 @@ const Ncw: React.FC = () => {
 
   const [isWalletLoading, setIsWalletLoading] = useState(false);
   const [walletError, setWalletError] = useState<string | null>(null);
+  const [latest, setLatest] = useState('');
+  const [isLatestLoading, setIsLatestLoading] = useState(false);
+  const [latestError, setLatestError] = useState<string | null>(null);
 
   const handleGetDeviceStatus = async () => {
     console.log(`Getting status for Wallet ID: ${walletId}`);
@@ -50,15 +53,26 @@ const Ncw: React.FC = () => {
     }
   };
 
+  const handleGetLatest = async() => {
+    setIsLatestLoading(true);
+    setLatestError(null);
+    try {
+      const latestBackup = await apiService.getLatest(walletId);
+      setLatest(latestBackup);
+      console.log("val:", latestBackup);
+    } catch (error) {
+      console.error('failed in handleGetLatest', error);
+      setLatestError('Failed to fetch latest backup');
+    } finally {
+      setIsLatestLoading(false);
+    }
+  }
+
+  
   const handleGetWalletDevices = async () => {
     console.log(`Getting wallet for Wallet ID: ${walletId}`);
     setIsWalletLoading(true);
     setWalletError(null);
-      // returns an array of objects like:
-  //  [
-  // { deviceId: '4fc29ab3-d834-449b-b910-0afa6d705121', enabled: true },
-  // { deviceId: '58a1e24d-4d45-4801-b303-6c8e38bd23c4', enabled: true }
-  // ]
   
     try {
       const wallet = await apiService.getWalletDevices(walletId);
@@ -214,7 +228,37 @@ const Ncw: React.FC = () => {
             </div>
 
             <Separator />
+            <div className="space-y-4">
+              <Label htmlFor="latest-backup" className="font-bold">Latest Backup data 🔑 + 🔐 = 🚀</Label>
+              <div className="flex flex-col gap-2">
+                <Input 
+                  id="latest-backup"
+                  placeholder="Get latest backup by walletId"
+                  value={walletId}
+                  onChange={(e) => setWalletId(e.target.value)}
+                />
+              </div>
+              <Button 
+                className="w-full"
+                onClick={handleGetLatest}
+                disabled={isLatestLoading}
+              >
+                {isLatestLoading ? 'Loading...' : 'Get Latest Backup'}
+              </Button>
+              {latestError && 
+                <div className="text-red-500 mt-2">{latestError}</div>
+              }
+              {latest && (
+                <div className="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                  <h3 className="text-lg font-bold mb-2">Latest Backup:</h3>
+                  <pre className="whitespace-pre-wrap overflow-auto">
+                    {JSON.stringify(latest, null, 2)}
+                  </pre>
+                </div>
+              )}
+            </div>
 
+            <Separator />
             {/* Enable Wallet Section */}
             <div className="space-y-4">
               <div className="flex flex-col gap-2">
@@ -242,7 +286,7 @@ const Ncw: React.FC = () => {
                         width: '100px',
                       }}
                     >
-                      {enabled ? 'Enabled' : 'Disabled'}
+                      {enabled ? 'Enable?' : 'Disable?'}
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>

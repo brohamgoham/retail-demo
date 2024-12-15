@@ -86,7 +86,32 @@ export class NCWController {
       console.log(
         'getLatestBackup =>', latest
       );
-      res.status(200).json(res);
+   /*
+       class LatestBackupKey {
+        deviceId: string;
+        publicKey: string;
+        keyId: string;
+        algorithm: string;
+    }
+    class LatestBackupResponse {
+        passphraseId: string;
+        createdAt: number;
+        keys: Array<LatestBackupKey>;
+    }
+   */
+      const backup = latest.keys.map((key) => ({
+        deviceId: key.deviceId,
+        publicKey: key.publicKey,
+        keyId: key.keyId,
+        algorithm: key.algorithm
+      }));
+      console.log("backup=>", backup);
+      const backupResponse = {
+        passphraseId: latest.passphraseId,
+        createdAt: latest.createdAt,
+        keys: backup
+      };
+      res.status(200).json(backupResponse);
     } catch (error) {
       return res.status(404).json({ error: error.message});
     }

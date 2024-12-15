@@ -15,3 +15,4 @@ export const getDeviceEw = (walletId: string) => `${EW}/device/${walletId}` // g
 export const getWalletDevices = (walletId: string) =>  `${EW}/wallet/${walletId}` // getWalletDevices
 export const NCW_ENABLE_WALLET = (walletId: string) => `${EW}/wallet/enable/${walletId}`
 export const NCW_INVOKE_WALLET_RPC = (walletId: string, deviceId: string) => `${EW}/invoke/${walletId}/${deviceId}`
+export const NCW_LATEST = (walletId: string) => `${EW}/wallet/latest/${walletId}` 

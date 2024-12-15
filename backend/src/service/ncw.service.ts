@@ -74,6 +74,7 @@ export class FireblocksNCWService {
     try {
       const res = await fireblocksSDK.NCW.getLatestBackup(walletId);
       logger.info(`Latest backup info for walletId: ${walletId} ==> ${res}`);
+      return res;
     } catch (error) {
       logger.error('Could not find backUp info');
       throw error;
