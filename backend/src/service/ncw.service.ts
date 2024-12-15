@@ -7,9 +7,7 @@ const logger = createLogger('<Fireblocks Embedded Wallets Service>');
 
 const secretKey = fs.readFileSync(path.resolve("./keys/namakwala.key"), "utf8");
 const adminApiKey = process.env.NCW_ADMIN;
-const signerApiKey = process.env.NCW_SIGNER;
 const fireblocksSDK = new FireblocksSDK(secretKey, adminApiKey, "https://api.fireblocks.io");
-const fireblocksSDKSigner = new FireblocksSDK(secretKey, signerApiKey, "https://api.fireblocks.io");
 
 export class FireblocksNCWService {
   async getDeviceStatus(walletId: string) {
@@ -67,6 +65,17 @@ export class FireblocksNCWService {
       return res;
     } catch (error) {
       logger.error(`Error enabling wallet ${walletId}: ${error}`);
+      throw error;
+    }
+  }
+
+  async getLatestBackup(walletId: string) {
+    logger.info(`Getting Key status`); 
+    try {
+      const res = await fireblocksSDK.NCW.getLatestBackup(walletId);
+      logger.info(`Latest backup info for walletId: ${walletId} ==> ${res}`);
+    } catch (error) {
+      logger.error('Could not find backUp info');
       throw error;
     }
   }

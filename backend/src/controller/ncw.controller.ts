@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { fireblocksNCWService } from '@service/ncw.service';
+import { createLogger } from '@util/logger.utils';
 
 export class NCWController {
   static async getDeviceStatus(req: Request, res: Response) {
@@ -78,4 +79,16 @@ export class NCWController {
     }
   }
 
+  static async getLatestBackup(req: Request, res: Response) {
+    const { walletId } = req.params;
+    try {
+      const latest = await fireblocksNCWService.getLatestBackup(walletId);
+      console.log(
+        'getLatestBackup =>', latest
+      );
+      res.status(200).json(res);
+    } catch (error) {
+      return res.status(404).json({ error: error.message});
+    }
+  }
 }
