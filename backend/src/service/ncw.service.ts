@@ -33,6 +33,25 @@ export class FireblocksNCWService {
     }
   }
 
+  async getWalletAssets(walletId: string, accountId: number) {
+    try {
+
+      const res = await fireblocksSDK.NCW.getWalletAssets(walletId, 0);
+      if (res && res.data) {
+        logger.info(`Addresses for wallet ${walletId} and account ${accountId}: ${JSON.stringify(res.data)}`);
+        return {
+          message: 'Found addresses',
+          data: res.data
+        };
+      } else {
+        throw new Error('No data received from Fireblocks SDK');
+      }
+    } catch (error) {
+      logger.error(`Failed to get asset addresses for wallet ${walletId}: ${error.message}`);
+      throw error;
+    }
+  }
+
   /**
    * Get NCW wallet devices
    *

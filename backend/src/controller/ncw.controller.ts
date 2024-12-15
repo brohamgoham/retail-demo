@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { fireblocksNCWService } from '@service/ncw.service';
-import { createLogger } from '@util/logger.utils';
 
 export class NCWController {
   static async getDeviceStatus(req: Request, res: Response) {
@@ -16,7 +15,18 @@ export class NCWController {
   static async getDeviceSetupStatus(req: Request, res: Response) {
     const { deviceId, walletId } = req.params;
     try {
-      const setupStatus = await fireblocksNCWService.getDeviceSetupStatus(deviceId, walletId);
+      const setup = await fireblocksNCWService.getDeviceSetupStatus(deviceId, walletId);
+      const keySetup = setup.setupStatus.map((key) => ({
+        status: key.status,
+        algorithmName: key.algorithmName,
+        confirmed: key.confirmed,
+        backedUp: key.backedUp
+      }));
+      const setupStatus = {
+        status: setup.status,
+        deviceId: setup.deviceId,
+        keySetup: keySetup
+      }
       return res.status(200).json(setupStatus);
     } catch (error) {
       return res.status(500).json({ error: error.message });
@@ -50,23 +60,18 @@ export class NCWController {
     }
   }
 
-  /*
-    
-    async rpc(req: RequestEx, res: Response, next: NextFunction) {
-    const { params, device } = req;
-    const { deviceId } = params;
-    const { message } = req.body;
-
+  static async getWalletAssets(req: Request, res: Response) {
+    const { walletId, accountId } = req.params;
     try {
-      const { walletId } = device!;
-      const response = await this.service.rpc(walletId, deviceId, message);
-      res.json(response);
-    } catch (err) {
-      return next(err);
+      const addr = await fireblocksNCWService.getWalletAssets(walletId, 0);
+      console.log("getWalletAssets=>", addr);
+      return res.status(200).json(addr);
+    } catch (error) {
+      console.error('Error getting wallet assets:', error);
+      return res.status(404).json({ error: error.message });
     }
   }
-  
-  */
+
   static async invokeWalletRpc(req: Request, res: Response) {
     const { walletId, deviceId } = req.params;
     const { payload } = req.body;
@@ -86,19 +91,6 @@ export class NCWController {
       console.log(
         'getLatestBackup =>', latest
       );
-   /*
-       class LatestBackupKey {
-        deviceId: string;
-        publicKey: string;
-        keyId: string;
-        algorithm: string;
-    }
-    class LatestBackupResponse {
-        passphraseId: string;
-        createdAt: number;
-        keys: Array<LatestBackupKey>;
-    }
-   */
       const backup = latest.keys.map((key) => ({
         deviceId: key.deviceId,
         publicKey: key.publicKey,

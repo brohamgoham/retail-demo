@@ -10,9 +10,12 @@ export const TRANSCATIONS = `${BACKEND_BASE_URL}/transactions`
 export const SUBMIT_TRANSACTION = `${TRANSCATIONS}/submit`
 
 export const EW =`${BACKEND_BASE_URL}/ew`
-export const NCW_GET_DEVICE_SETUP_STATUS = `${EW}/device/setup`
+//export const NCW_GET_DEVICE_SETUP_STATUS = (walletId: string, deviceId: string) => `${EW}/device/setup/${deviceId}/${walletId}`
 export const getDeviceEw = (walletId: string) => `${EW}/device/${walletId}` // getWalletSetupStatus
 export const getWalletDevices = (walletId: string) =>  `${EW}/wallet/${walletId}` // getWalletDevices
+export const getDeviceSetupStatus = (walletId: string, deviceId: string) => `${EW}/device/setup/${walletId}/${deviceId}`
+
 export const NCW_ENABLE_WALLET = (walletId: string) => `${EW}/wallet/enable/${walletId}`
 export const NCW_INVOKE_WALLET_RPC = (walletId: string, deviceId: string) => `${EW}/invoke/${walletId}/${deviceId}`
-export const NCW_LATEST = (walletId: string) => `${EW}/wallet/latest/${walletId}` 
+export const NCW_LATEST = (walletId: string) => `${EW}/wallet/latest/${walletId}`
+export const getWalletAssets = (walletId: string, accountId: string) => `${EW}/wallet/assets/${walletId}/${accountId}`

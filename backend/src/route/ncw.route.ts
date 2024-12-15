@@ -13,6 +13,10 @@ router.get(
     NCWController.getDeviceSetupStatus
   )
   router.get(
+  '/wallet/assets/:walletId/:accountId',
+  NCWController.getWalletAssets
+)
+  router.get(
     '/wallet/:walletId',
     NCWController.getWalletDevices
   )
