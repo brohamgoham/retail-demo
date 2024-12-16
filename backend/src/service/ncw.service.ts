@@ -7,9 +7,7 @@ const logger = createLogger('<Fireblocks Embedded Wallets Service>');
 
 const secretKey = fs.readFileSync(path.resolve("./keys/namakwala.key"), "utf8");
 const adminApiKey = process.env.NCW_ADMIN;
-const signerApiKey = process.env.NCW_SIGNER;
 const fireblocksSDK = new FireblocksSDK(secretKey, adminApiKey, "https://api.fireblocks.io");
-const fireblocksSDKSigner = new FireblocksSDK(secretKey, signerApiKey, "https://api.fireblocks.io");
 
 export class FireblocksNCWService {
   async getDeviceStatus(walletId: string) {
@@ -31,6 +29,25 @@ export class FireblocksNCWService {
       return res;
     } catch (error) {
       logger.error(`Error getting device setup status for device ${deviceId} and wallet ${walletId}: ${error}`);
+      throw error;
+    }
+  }
+
+  async getWalletAssets(walletId: string, accountId: number) {
+    try {
+
+      const res = await fireblocksSDK.NCW.getWalletAssets(walletId, 0);
+      if (res && res.data) {
+        logger.info(`Addresses for wallet ${walletId} and account ${accountId}: ${JSON.stringify(res.data)}`);
+        return {
+          message: 'Found addresses',
+          data: res.data
+        };
+      } else {
+        throw new Error('No data received from Fireblocks SDK');
+      }
+    } catch (error) {
+      logger.error(`Failed to get asset addresses for wallet ${walletId}: ${error.message}`);
       throw error;
     }
   }
@@ -67,6 +84,18 @@ export class FireblocksNCWService {
       return res;
     } catch (error) {
       logger.error(`Error enabling wallet ${walletId}: ${error}`);
+      throw error;
+    }
+  }
+
+  async getLatestBackup(walletId: string) {
+    logger.info(`Getting Key status`); 
+    try {
+      const res = await fireblocksSDK.NCW.getLatestBackup(walletId);
+      logger.info(`Latest backup info for walletId: ${walletId} ==> ${res}`);
+      return res;
+    } catch (error) {
+      logger.error('Could not find backUp info');
       throw error;
     }
   }

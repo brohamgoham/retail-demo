@@ -101,8 +101,7 @@ class ApiService {
    */
   getDeviceSetupStatus = async (walletId: string, deviceId: string) => {
     try {
-      const url = `${urls.NCW_GET_DEVICE_SETUP_STATUS}/${deviceId}/${walletId}`;
-      const res = await axiosInstance.get(url);
+      const res = await axiosInstance.get(urls.getDeviceSetupStatus(walletId, deviceId));
       console.log("Running get Device SETUP Status");
       return res.data;
     } catch (error) {
@@ -152,8 +151,30 @@ class ApiService {
       throw error;
     }
   }
-}
 
+  async getLatest(walletId: string) {
+    try {
+      const res = await axiosInstance.get(urls.NCW_LATEST(walletId));
+      return res.data;
+    } catch (error) {
+      console.error("Error no backup found", error);
+      throw error;
+    }
+  }
+
+  async getAddresses(walletId: string, accountId: string) {
+    try {
+      if (!walletId || !accountId) {
+        throw new Error('Wallet ID and Account ID are required');
+      }
+      const res = await axiosInstance.get(urls.getWalletAssets(walletId, accountId));
+      return res.data;
+    } catch (error) {
+      console.error('No Address', error);
+      throw error;
+    }
+  }
+}
 
 const apiService = new ApiService();
 export default apiService;
